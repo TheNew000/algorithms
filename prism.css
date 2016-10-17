@@ -6,6 +6,11 @@
  */
 body{
 	text-align: center;
+	padding-top: 65px;
+}
+
+section{
+	padding-top: 65px;
 }
 
 code[class*="language-"],
