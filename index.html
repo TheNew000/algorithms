@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Algorithms in Python</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://bootswatch.com/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="prism.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="prism.js"></script>
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Danny's Algorithms!</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bubble Sort: <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#bubSort">Bubble Sort</a></li>
+            <li><a href="#bubStory">The Story</a></li>
+            <li><a href="#dBubSort">Danny's Original Attempt</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#refBub">Danny's Refactored Version</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Select Sort: <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#selSort">Select Sort</a></li>
+            <li><a href="#selStory">The Story</a></li>
+            <li><a href="#dSelSort">"Danny's Failsafe Version</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#refSel">Danny's Refactored Version</a></li>
+          </ul>
+        </li>
+        <li><a href="http://www.dannyarango.com">My Website</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    <header class="col-sm-12">
+        <h1>Danny's Sorts</h1> 
+        <p>I have developed a rabid interest in improving algorithms!  Can we improve them?  Will we write more code than current solutions and will they run faster?  Can we look at the problem from a different angle to inspire new methods and solutions?</p>
+
+        <p>This page will be devoted to my love of exploring algorithms.  I am assuming if you're reading this then you're already familiar with the various sorts and their uses.  I have written these in Python but I can will JavaScript examples soon.  As I continue to improve my skills, learn new languages, and understand deeper concepts I hope to apply my knowledge to my ideas and further discuss the implementation and impact of these solutions!  If I've peaked your interest please feel free to contact me and let's discuss this further!</p>
+    </header>
+    <section class="row" id="bubSort">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h3>A typical Bubble Sort:</h3>
+            <pre><code class="language-python line-numbers">def bubble_sort(list)
+    for i in range(len(items)):
+        for j in range(len(items)-1-i):
+            if items[j] &gt; items[j+1]:
+                items[j], items[j+1] = items[j+1], items[j]
+    return list
+            </code></pre>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/csjGw7O3z4U" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+    <section class="row" id="bubStory">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2>The Story:</h2>
+            <p>While watching "The Secret Rules of Modern Living - Algorithms" I became inspired by their visual representation of the bubble sort. (See Video Above)  The man went up an array or list of items while organizing the blocks from tallest to shortest.  I thought to myself, "What if, on every iteration, the computer ascended the list with the highest value and then descended the list with the lowest value?"  Applying this concept allows us to make three assumptions:</p>
+            <ol>
+                <li>Once the function completes one full iteration over the objects the highest value will be left in the last index (list[len(list) - 1]) and the lowest value will be placed in the first index (list[0]).  The algorithm can ignore the last index when it ascends and the first index when it descends as the descending pass will always start at the last available index and the ascending pass will always start at the first available index.</li>
+                <li>Every value will be in it's correct position in only half the amount of iterations so we can cut down the length of the list in half and round down for odd numbers(len(list)//2)</li>
+                <li>Even if there's an odd number list (if there's 7 indexes, we'll only cycle through the list 3 times) the center value will always be left in the middle of the list on the final pass.  Even in a worst case scenario such as this one:
+                <pre><code class="language-python line-numbers">Original List: [7,6,4,5,3,2,1]
+First Full Pass: [1,6,4,5,3,2,7]
+Second Full Pass: [1,2,4,5,3,6,7]</code></pre>
+                You can see how it will only require one last pass for all three of those integers to be placed in their proper place.  Ascending will switch 5 and 3 while descending will switch the 3, and 4.  Voila!</li>
+            </ol>
+        </div>
+    </section>
+    <section class="row" id="dBubSort">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>While not necessarily an improvement on bubble_sort's worst case scenario: O(n^2),  it does appear to improve speeds on smaller lists.  Here was my original attempt at writing my own Bubble Sort:</p>
+            <h3>Original Attempt:</h3>
+            <pre><code class="language-python line-numbers">def danny_bub(list):
+    length = len(list) - 1
+    sorted = False
+    counter = 0
+    while not sorted:
+        sorted = True
+        for i in range(counter, length - 1, 1):
+            if list[i] > list[i + 1]:
+                list[i], list[i+1] = list[i+1], list[i]
+                sorted = False
+        if(not sorted):
+            for j in range(length, counter, -1):
+                if list[j] < list[j - 1]:
+                    list[j], list[j-1] = list[j-1], list[j]
+        counter += 1
+        length -= 1
+    print list
+            </code></pre>
+        </div>
+    </section>
+    <section class="row" id="refBub">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>After seeing how long and complicated my original attempt was, I simply had to trim the fat and break it down to it's bare essentials:</p>
+            <h3>Danny's Bubble Sort:</h3>
+            <pre><code class="language-python line-numbers">def danny_bub2(list):
+    for i in range((len(list))//2):
+        for j in range(i, (len(list) - 1) - i): 
+            if list[j] > list[j + 1]: 
+                list[j], list[j + 1] = list[j + 1], list[j]      
+        for k in range((len(list) - 2) - i, i, -1): 
+            if list[k] < list[k - 1]: 
+                list[k], list[k - 1] = list[k - 1], list[k]
+    print list
+            </code></pre>
+        </div>
+    </section>  <!-- End Bubble Sort Section -->
+    <section class="row" id="selSort">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h3>A typical Select Sort:</h3>
+            <pre><code class="language-python line-numbers">def select_sort(list):
+    for num in range(len(list) - 1, 0, -1):
+        maxPos = 0
+        for loc in range(1, num + 1):
+            if list[loc] > list[maxPos]:
+                maxPos = loc
+        list[num], list[maxPos]=list[maxPos], list[num]
+    return list
+            </code></pre>
+        </div>
+    </section>
+    <section class="row" id="selStory">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2>The Story:</h2>
+            <p>After my inspiriation with Bubble Sort I decided to tackle Select Sort because of their similarity in application.  At their core, both Bubble and Select sorts ascend with one value at a time and leave room for my descending concept.  Once again:</p>
+            <ol>
+                <li>We can allow the ascending and descending loops to finish each other's work by stopping one index away from the top or bottom of the list and always starting the other loop on the first or last index.</li>
+                <li>We need only loop over half the length of the list: (len(list)//2)</li>
+                <li>The center value will always be left smack dab in the middle of the indexes.</li>
+            </ol>
+        </div>
+    </section>
+    <section class="row" id="dSelSort">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>I thought it would be fun to write this algorithm with a check as to whether or not the highest or lowest value was already in the first or last index.  Since this would normally result in the function not moving any indexes during an entire path, I have that value left in the index one spot below or above that one.  For example when we descend the list: <pre><code class="language-python line-numbers">elif loc2 == beg:
+    beg += 1
+    loc2 += 1</code></pre>
+            By adding one digit to the loc2 variable, we can accelerate the rate at which we remove indexes and thus, avoid wasting the current index that we're storing.  Of course this requires a constant checking as to whether or not we're at the beginning or end of the current state of the list, which isn't particularly ideal.</p>
+            <h3>Original Attempt:</h3>
+            <pre><code class="language-python line-numbers">def danny_select(list):
+    maxPos = 0
+    beg = 0
+    end = len(list)
+    for num in range((len(list) - 1)//2):
+        for loc in range(beg + 1, end - num):
+            if list[loc] > list[maxPos]:
+                if loc != end - num - 1:
+                    maxPos = loc
+                elif loc == end - num - 1:
+                    loc -= 1
+                    end -= 1
+        list[loc], list[maxPos]=list[maxPos], list[loc]
+        minPos = loc - 1
+        for loc2 in range(end - 2, num - 1, -1):
+            if list[loc2] < list[minPos]:
+                if loc2 != beg:
+                    minPos = loc2
+                elif loc2 == beg:
+                    beg += 1
+                    loc2 += 1
+        list[loc2], list[minPos]=list[minPos], list[loc2]
+        maxPos = loc2 + 1
+        if maxPos == minPos:
+            return list
+    return list
+            </code></pre>
+        </div>
+    </section>
+    <section class="row" id="refSel">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>That sort would be great for a list that we already know is mostly organized already.  But for the simplest implementation of this idea I wrote:</p>
+            <h3>Danny's Short Select Sort:</h3>
+            <pre><code class="language-python line-numbers">def danny_shortsort_select(list):
+    maxPos = 0
+    for num in range((len(list) - 1)//2):
+        for loc in range(num + 1, len(list) - num):
+            if list[loc] > list[maxPos]:
+                maxPos = loc
+        list[loc], list[maxPos]=list[maxPos], list[loc]
+        minPos = loc - 1
+        for loc2 in range(loc - 2, num - 1, -1):
+            if list[loc2] < list[minPos]:
+                minPos = loc2
+        list[loc2], list[minPos]=list[minPos], list[loc2]
+        maxPos = loc2 + 1
+    return list
+            </code></pre>
+        </div>
+    </section>
+    <footer class="row">
+        
+    </footer>
+</body>
+</html>
