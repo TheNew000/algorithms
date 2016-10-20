@@ -1,6 +1,6 @@
 #Danny's Sorting Algorithms!
 
-For a deeper explanation of my custom sorts please check out my [algorithm page!](www.dannyarango.com/algorithms "My Algorithm Page")  Otherwise, I'm including a brief explanation and the actual code for my sorting algorithms.
+For a deeper explanation of my custom sorts please check out my [algorithm page!](http://www.dannyarango.com/algorithms "My Algorithm Page")  Otherwise, I'm including a brief explanation and the actual code for my sorting algorithms.
 
 ###Danny's BubbleSort:
 
