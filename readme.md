@@ -15,7 +15,7 @@ def danny_bub2(list):
         for k in range((len(list) - 2) - i, i, -1): 
             if list[k] < list[k - 1]: 
                 list[k], list[k - 1] = list[k - 1], list[k]
-    print list
+    return list
 ```
 
 ###Danny's Select Sort:
